@@ -35,7 +35,7 @@ def find_anagrams(name, pokemon_list):
                     results.append(new_name+item)
         else:
             remainings = name
-        new_name = ''
+        new_name = ''        
     return results, remainings
 
 pokenames, leftover = find_anagrams(name_string, pokemon_names_list)
