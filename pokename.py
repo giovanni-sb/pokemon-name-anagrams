@@ -1,18 +1,6 @@
-pokemon_names_list = []
-with open('nameslist.txt') as list_file:
-    pokemon_file = list_file.readlines()
-    for line in pokemon_file:
-        pokemon = line[:-1]
-        pokemon_names_list.append(pokemon)
-    pokemon_names_list.append('pokemon')
-
-#pokemon_names_list = ['pikachu', 'hypno', 'bulbasaur']
-
-name_string = input('Type the name you want to test: ')
-print('testing...')
+import pokelist_fetcher
 
 def find_anagrams(name, pokemon_list):
-    #print(name)
     results = []
     new_name = ''
     remainings = ''
@@ -23,7 +11,6 @@ def find_anagrams(name, pokemon_list):
             if poke_letter in split_name:
                 new_name+=poke_letter
                 split_name.remove(poke_letter)
-                #print(new_name+'<--'+str(split_name))
         new_name+=' '
         if new_name[:pkm_name_length] == pokemon:
             remainings = ''.join(split_name)
@@ -37,6 +24,27 @@ def find_anagrams(name, pokemon_list):
             remainings = name
         new_name = ''        
     return results, remainings
+
+def read_list(extra_items=[]):
+    with open('nameslist.txt') as list_file:
+        pokemon_file = list_file.readlines()
+        for line in pokemon_file:
+            pokemon = line[:-1]
+            pokemon_names_list.append(pokemon)
+        for item in extra_items:
+            pokemon_names_list.append(item)
+
+pokemon_names_list = []
+try:
+    read_list(['pokemon'])
+except IOError:
+    pokelist_fetcher.fetch()
+    read_list(['pokemon'])
+
+#pokemon_names_list = ['bulbasaur', 'pikachu', 'hypno']
+
+name_string = input('Type the name you want to test: ')
+print('testing...')
 
 pokenames, leftover = find_anagrams(name_string, pokemon_names_list)
 
